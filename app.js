@@ -10,13 +10,63 @@ function Book(title, author, pages, read) {
     }    
 }
 
-function addBookToLibrary(Book) {
-    myLibrary.push(Book);
+function createForm() {
+    let form = document.createElement('form');
+
+    let labelTitle = document.createElement('label');
+    labelTitle.setAttribute('for', 'bookTitle');
+    labelTitle.innerHTML = "Title of the new book:";
+    form.appendChild(labelTitle);
+
+    let inputTitle = document.createElement('input');
+    inputTitle.setAttribute('type', 'text');
+    inputTitle.setAttribute('id', 'bookTitle');
+    labelTitle.appendChild(inputTitle);
+
+    let labelAuthor = document.createElement('label');
+    labelAuthor.setAttribute('for', 'bookAuthor');
+    labelAuthor.innerHTML = "Author of the book:";
+    form.appendChild(labelAuthor);
+
+    let inputAuthor = document.createElement('input');
+    inputAuthor.setAttribute('type', 'text');
+    inputAuthor.setAttribute('id', 'bookAuthor');
+    labelAuthor.appendChild(inputAuthor);
+
+    let labelPages = document.createElement('label');
+    labelPages.setAttribute('for', 'bookPages');
+    labelPages.innerHTML = "Number of pages in the book:";
+    form.appendChild(labelPages);
+
+    let inputPages = document.createElement('input');
+    inputPages.setAttribute('type', 'number');
+    inputPages.setAttribute('id', 'bookPages');
+    labelPages.appendChild(inputPages);
+
+    let labelRead = document.createElement('label');
+    labelRead.setAttribute('for', 'bookRead');
+    labelRead.innerHTML = "Read the book.";
+    form.appendChild(labelRead);
+    
+    let inputRead = document.createElement('input');
+    inputRead.setAttribute('type', 'checkbox');
+    inputRead.setAttribute('id', 'bookRead');
+    labelRead.appendChild(inputRead);
+
+    inputRead.style.float = 'left';
+    labelRead.style.float = 'right';
+    inputRead.style.marginRight = '10px';
+    
+    document.getElementsByTagName('body')[0].insertBefore(form, document.getElementById('addBook'));
 }
 
-let table = document.getElementById('libraryTable');
+let newBookButton = document.getElementById('newBook');
+newBookButton.addEventListener('click', function() {
+    createForm();
+    newBookButton.disabled = true;
+});
 
-function displayBooks() {
+function getUserInput() {
     let bookTitle = document.getElementById('bookTitle');
     let bookAuthor = document.getElementById('bookAuthor');
     let bookPages = document.getElementById('bookPages');
@@ -29,13 +79,20 @@ function displayBooks() {
     }
 
     let newBook = new Book(bookTitle.value, bookAuthor.value, bookPages.value, readValue);
-    addBookToLibrary(newBook);
+    return newBook;
+}
 
-    for(let i = 0; i < myLibrary.length; i++) {
-        let row = table.insertRow(i + 1);
+function addBookToLibrary(Book) {
+    myLibrary.push(Book);
+}
+
+function displayBooks() {
+    let table = document.getElementById('libraryTable');
+    for(let i = myLibrary.length - 1; i < myLibrary.length; i++) {
+        let row = table.insertRow(myLibrary.length);
 
         let cell1 = row.insertCell(0);
-        cell1.innerHTML = i + 1;
+        cell1.innerHTML = myLibrary.length;
 
         let cell2 = row.insertCell(1);
         cell2.innerHTML = myLibrary[i].title;
@@ -51,6 +108,8 @@ function displayBooks() {
     }
 }
 
-
 let addBook = document.getElementById('addBook');
-addBook.addEventListener('click', displayBooks);
+addBook.addEventListener('click', function() {
+    addBookToLibrary(getUserInput());
+    displayBooks();
+});
