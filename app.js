@@ -10,21 +10,27 @@ function Book(title, author, pages, read) {
     }    
 }
 
-const theHobbit = new Book("The Hobbit", "J.R.R. Tolkien", 295, "not read");
-const lotr = new Book("LOTR", "J.R.R. Tolkien", 500, "read");
-const harryPotter = new Book("Harry Potter", "J.K. Rowling", 1000, "not read");
-
 function addBookToLibrary(Book) {
     myLibrary.push(Book);
 }
 
-addBookToLibrary(theHobbit);
-addBookToLibrary(lotr);
-addBookToLibrary(harryPotter);
-
 let table = document.getElementById('libraryTable');
 
 function displayBooks() {
+    let bookTitle = document.getElementById('bookTitle');
+    let bookAuthor = document.getElementById('bookAuthor');
+    let bookPages = document.getElementById('bookPages');
+    let bookRead = document.getElementById('bookRead');
+    let readValue = "";
+    if (bookRead.checked) {
+        readValue = "Read";
+    } else {
+        readValue = "Not Read";
+    }
+
+    let newBook = new Book(bookTitle.value, bookAuthor.value, bookPages.value, readValue);
+    addBookToLibrary(newBook);
+
     for(let i = 0; i < myLibrary.length; i++) {
         let row = table.insertRow(i + 1);
 
@@ -45,4 +51,6 @@ function displayBooks() {
     }
 }
 
-displayBooks();
+
+let addBook = document.getElementById('addBook');
+addBook.addEventListener('click', displayBooks);
