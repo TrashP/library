@@ -12,7 +12,7 @@ table, th, td {
 }
 
 col {
-    width: 200px;
+    width: 300px;
 }
 
 td {
@@ -51,4 +51,5 @@ form {
 
 #addBook {
     margin-top: 20px;
+    margin-bottom: 50px;
 }
