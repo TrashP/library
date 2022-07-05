@@ -90,7 +90,6 @@ function displayBooks() {
     let table = document.getElementById('libraryTable');
     for (let i = myLibrary.length - 1; i < myLibrary.length; i++) {
         let row = table.insertRow(myLibrary.length);
-        row.setAttribute('data-number', i);
 
         let cell1 = row.insertCell(0);
         cell1.innerHTML = myLibrary.length;
@@ -113,23 +112,22 @@ function displayBooks() {
         removeButton.setAttribute('class', 'removeButton');
         removeButton.setAttribute('data-number', i);
         cell6.appendChild(removeButton);
+        removeButton.addEventListener('click', function(event) {
+            removeBook(event.target);
+        })
     }
 }
 
-function removeBook() {
-    // get the remove buttons from table
-    let removeButton = document.getElementsByClassName('removeButton');
-    
-    // loop through remove buttons and add event listeners
-    for (let i = removeButton.length - 1; i > -1; i--) {       
-        removeButton[i].addEventListener('click', function() {
-            // remove the Book object from myLibrary array
-            myLibrary.splice(i, 1);
+function removeBook(button) {
+    let index = parseInt(button.dataset.number);
+    myLibrary.splice(index, 1);
 
-            let table = document.getElementById('libraryTable');
-            //remove the corresponding row from table
-            table.rows[i + 1].remove();
-        });      
+    let table = document.getElementById('libraryTable');
+    table.deleteRow(index + 1);
+
+    for (let i = index; i < table.rows.length - 1; i++) {
+        table.rows[i + 1].cells[5].childNodes[0].dataset.number -= 1;
+        table.rows[i + 1].cells[0].innerHTML -= 1;
     }
 }
 
@@ -137,5 +135,4 @@ let addBook = document.getElementById('addBook');
 addBook.addEventListener('click', function() {
     addBookToLibrary(getUserInput());
     displayBooks();
-    removeBook();
 });
