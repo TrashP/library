@@ -107,14 +107,24 @@ function displayBooks() {
         cell5.innerHTML = myLibrary[i].read;
 
         let cell6 = row.insertCell(5);
-        let removeButton = document.createElement('Button');
+        let removeButton = document.createElement('button');
         removeButton.innerHTML = 'remove';
         removeButton.setAttribute('class', 'removeButton');
         removeButton.setAttribute('data-number', i);
         cell6.appendChild(removeButton);
         removeButton.addEventListener('click', function(event) {
             removeBook(event.target);
-        })
+        });
+
+        let cell7 = row.insertCell(6);
+        let toggle = document.createElement('button');
+        toggle.innerHTML = 'change';
+        toggle.setAttribute('class', 'toggle');
+        cell7.appendChild(toggle);
+        toggle.setAttribute('data-number', i);
+        toggle.addEventListener('click', function(event) {
+            readStatus(event.target);
+        });
     }
 }
 
@@ -128,6 +138,18 @@ function removeBook(button) {
     for (let i = index; i < table.rows.length - 1; i++) {
         table.rows[i + 1].cells[5].childNodes[0].dataset.number -= 1;
         table.rows[i + 1].cells[0].innerHTML -= 1;
+    }
+}
+
+function readStatus(button) {
+    let table = document.getElementById('libraryTable');
+    let rowIndex = parseInt(button.dataset.number);
+    let status = table.rows[rowIndex + 1].cells[4].innerHTML;
+
+    if (status == 'Read') {
+        table.rows[rowIndex + 1].cells[4].innerHTML = 'Not Read';
+    } else if (status == 'Not Read') {
+        table.rows[rowIndex + 1].cells[4].innerHTML = 'Read';
     }
 }
 
