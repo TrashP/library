@@ -137,6 +137,7 @@ function removeBook(button) {
 
     for (let i = index; i < table.rows.length - 1; i++) {
         table.rows[i + 1].cells[5].childNodes[0].dataset.number -= 1;
+        table.rows[i + 1].cells[6].childNodes[0].dataset.number -= 1;
         table.rows[i + 1].cells[0].innerHTML -= 1;
     }
 }
